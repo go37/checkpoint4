@@ -1,11 +1,11 @@
 {# templates/base.html.twig #}
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="icon" type="image/png" href="{{ asset('build/images/favicon.png') }}"/>
         <title>CV 4 U | {% block title %}{% endblock %}</title>
-       {#  <link rel="stylesheet" href="dark-mode.css"> #}
-        <link rel="icon">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -15,9 +15,8 @@
         {% endblock %}
     </head>
     <body>
-        <header>{% include '_nav.html.twig' %}</header>
-        {% block body %}
-        {% endblock %}
-        {% include '_footer.html.twig' %}
+        <header class="w-100">{% include '_nav.html.twig' %}</header>
+        <section class="d-flex flex-column align-items-center justify-content-center">{% block body %}{% endblock %}</section>
+        <footer class="d-flex justify-content-around w-100 mt-auto">{% include '_footer.html.twig' %}</footer>
     </body>
 </html>

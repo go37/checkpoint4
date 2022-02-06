@@ -4,7 +4,6 @@
 {% block title %}Login{% endblock %}
 
 {% block body %}
-<section>
 {% if error %}
 <div>{{ error.messageKey }}</div>
 {% endif %}
@@ -22,5 +21,4 @@
     <button type="submit">Sign in</button>
 </form>
 New here ? <a href="{{ path('app_register') }}">Create an account</a>
-</section>
 {% endblock %}

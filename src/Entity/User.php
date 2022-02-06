@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use App\Entity\Study;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -59,6 +62,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255)
      */
     private ?string $phone;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Study::class, mappedBy="school")
+     */
+    private Collection $studies;
+
+    public function __construct()
+    {
+        $this->studies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -193,6 +206,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Study[]
+     */
+    public function getStudies(): Collection
+    {
+        return $this->studies;
+    }
+
+    public function addStudy(Study $study): self
+    {
+        if (!$this->studies->contains($study)) {
+            $this->studies[] = $study;
+            $study->setSchool($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudy(Study $study): self
+    {
+        if ($this->studies->removeElement($study)) {
+            // set the owning side to null (unless already changed)
+            if ($study->getSchool() === $this) {
+                $study->setSchool(null);
+            }
+        }
 
         return $this;
     }

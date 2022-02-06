@@ -52,11 +52,27 @@ class HomeController extends AbstractController
         return $this->render('home/about.html.twig');
     }
 
-     /**
+    /**
      * @Route("/summary", name="summary")
      */
     public function summary(): Response
     {
         return $this->render('summary/index.html.twig');
+    }
+
+     /**
+     * @Route("/profile", name="profile")
+     */
+    public function profile(): Response
+    {
+        return $this->render('home/profile.html.twig');
+    }
+
+     /**
+     * @Route("/settings", name="settings")
+     */
+    public function settings(): Response
+    {
+        return $this->render('home/settings.html.twig');
     }
 }
