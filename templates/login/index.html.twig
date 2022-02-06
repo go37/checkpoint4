@@ -1,13 +1,13 @@
+{# templates/login/index.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Login{% endblock %}
 
 {% block body %}
-
+<section>
 {% if error %}
 <div>{{ error.messageKey }}</div>
 {% endif %}
-
 <form action="{{ path('login') }}" method="post">
     <label for="username">Email:</label>
     <input type="text" id="username" name="_username" value="{{ last_username }}"/>
@@ -19,6 +19,8 @@
     <input type="hidden" name="_target_path" value="/account"/> #}
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
     
-    <button type="submit">login</button>
+    <button type="submit">Sign in</button>
 </form>
+New here ? <a href="{{ path('app_register') }}">Create an account</a>
+</section>
 {% endblock %}
