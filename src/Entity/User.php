@@ -49,28 +49,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $firstname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $lastname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $phone;
 
     /**
-     * @ORM\OneToMany(targetEntity=Study::class, mappedBy="school")
+     * @ORM\ManyToMany(targetEntity=School::class, mappedBy="student")
      */
-    private Collection $studies;
+    private $schools;
 
     public function __construct()
     {
-        $this->studies = new ArrayCollection();
+        $this->schools = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -210,31 +210,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Study[]
-     */
-    public function getStudies(): Collection
+    public function getIsVerified(): ?bool
     {
-        return $this->studies;
+        return $this->isVerified;
     }
 
-    public function addStudy(Study $study): self
+    /**
+     * @return Collection|School[]
+     */
+    public function getSchools(): Collection
     {
-        if (!$this->studies->contains($study)) {
-            $this->studies[] = $study;
-            $study->setSchool($this);
+        return $this->schools;
+    }
+
+    public function addSchool(School $school): self
+    {
+        if (!$this->schools->contains($school)) {
+            $this->schools[] = $school;
+            $school->addStudent($this);
         }
 
         return $this;
     }
 
-    public function removeStudy(Study $study): self
+    public function removeSchool(School $school): self
     {
-        if ($this->studies->removeElement($study)) {
-            // set the owning side to null (unless already changed)
-            if ($study->getSchool() === $this) {
-                $study->setSchool(null);
-            }
+        if ($this->schools->removeElement($school)) {
+            $school->removeStudent($this);
         }
 
         return $this;

@@ -29,7 +29,7 @@ class InformationController extends AbstractController
             if ($user instanceof User) {
                 $entityManager->persist($user);
                 $entityManager->flush();
-                return $this->redirectToRoute('information');
+                return $this->redirectToRoute('school_index');
             }
         }
         return $this->renderForm('information/index.html.twig', [
