@@ -2,18 +2,19 @@
 
 namespace App\Form;
 
-use App\Entity\Study;
+use App\Entity\School;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class StudyType extends AbstractType
+class SchoolType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('school', null, ['choice_label' => 'school'])
-            ->add('location')
+            ->add('name', TextType::class)
+            ->add('location', TextType::class)
             ->add('start')
             ->add('end')
         ;
@@ -22,7 +23,7 @@ class StudyType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Study::class,
+            'data_class' => School::class,
         ]);
     }
 }
